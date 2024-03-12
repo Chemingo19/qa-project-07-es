@@ -1,9 +1,8 @@
 import data
 from selenium import webdriver
-from selenium.webdriver import Keys
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.wait import WebDriverWait
+from tariff_pickers_shown import TariffPickerShown
+from urban_routes_page import UrbanRoutesPage
+from type_journey import TypeJourney
 
 
 # no modificar
@@ -34,29 +33,7 @@ def retrieve_phone_code(driver) -> str:
         return code
 
 
-class UrbanRoutesPage:
-    from_field = (By.ID, 'from')
-    to_field = (By.ID, 'to')
-
-    def __init__(self, driver):
-        self.driver = driver
-
-    def set_from(self, from_address):
-        self.driver.find_element(*self.from_field).send_keys(from_address)
-
-    def set_to(self, to_address):
-        self.driver.find_element(*self.to_field).send_keys(to_address)
-
-    def get_from(self):
-        return self.driver.find_element(*self.from_field).get_property('value')
-
-    def get_to(self):
-        return self.driver.find_element(*self.to_field).get_property('value')
-
-
-
 class TestUrbanRoutes:
-
     driver = None
 
     @classmethod
@@ -65,17 +42,28 @@ class TestUrbanRoutes:
         from selenium.webdriver import DesiredCapabilities
         capabilities = DesiredCapabilities.CHROME
         capabilities["goog:loggingPrefs"] = {'performance': 'ALL'}
-        cls.driver = webdriver.Chrome(desired_capabilities=capabilities)
+        cls.driver = webdriver.Chrome()
+        cls.driver.maximize_window()
+        cls.driver.get(data.urban_routes_url)
+        cls.routes_page = UrbanRoutesPage(cls.driver)
 
     def test_set_route(self):
         self.driver.get(data.urban_routes_url)
         routes_page = UrbanRoutesPage(self.driver)
         address_from = data.address_from
         address_to = data.address_to
+        routes_page.wait_for_load_home_page()
         routes_page.set_route(address_from, address_to)
         assert routes_page.get_from() == address_from
         assert routes_page.get_to() == address_to
 
+        type_journey = TypeJourney(self.driver)
+        type_journey.wait_for_load_type_journey()
+        type_journey.go_to_taxi()
+
+        tariff_pickers = TariffPickerShown(self.driver)
+        tariff_pickers.order_completed()
+        tariff_pickers.wait_for_tariff_pickers_shown()
 
     @classmethod
     def teardown_class(cls):
