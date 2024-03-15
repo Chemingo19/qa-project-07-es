@@ -14,7 +14,27 @@
 
     A continuación se detallará los archivos existentes:
     
-    1.- Archivo main.py es de donde se ejecutará todo el proyecto.
+    1.- Archivo main.py es de donde se ejecutará todo el proyecto. En el 
+        cual se encuentran las siguientes pruebas:
+
+        1.1- # Test para cargar la pagina, rellenar los campos Desde y Hasta
+            "def test_set_route(self):"
+        1.2- # Test para seleccionar el modo personal y darle click al boton Pedir 
+                un Taxi "def test_type_journey(self):"
+        1.3- # Test para seleccionar la tarifa Comfort y desplazarce hasta le 
+            sección de agregar telefono "def test_tariff_picker_show(self):"
+        1.4- # Test para agragar numero de telefono
+             "def test_number_phone_and_code(self):"
+        1.5- # Test para agragar nuevo medio de pago a traves de tarjeta
+             "def test_add_new_card(self):"
+        1.6- # Test para agragar un mensaje al contralor y bajar hasta la seccion 
+            de escoger manta y pañuelo "def test_message_comptroller(self):"
+        1.7- # Test para seccionar manta y pañuelos
+             "def test_trigger_picker_blanket_and_scarves(self):"
+        1.8- # Test para agragar helados "def test_add_ices_picker(self):"
+        1.9- # Test para darle click en solicitar taxi y ver el tiempo de espera del 
+            mismo "def test_order_taxi_and_modal(self):"
+
     2.- Archivo data.py desde aca se llamaran la mayoria de las variables 
         declaradas, sean url, conectores, lozalizadores, entre otros. 
     3.- Archivo urban_routes_page.py desde aca ingresaremos las diferentes

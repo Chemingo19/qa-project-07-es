@@ -1,20 +1,20 @@
-import time
-from number_phone_and_code import NumberPhoneAndCode
-from add_new_card import AddNewCard
 import data
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
+from urban_routes_page import UrbanRoutesPage
 
 
 class TariffPickerShown:
-    tariff_car = (By.XPATH, data.button_comfort)
-    taxi_id_messenger = (By.ID, data.id_messenger_taxi)
-    view_label = (By.CLASS_NAME, data.label_view)
-    manta = (By.CSS_SELECTOR, data.label_manta_panuelos)
-    add_ice = (By.CSS_SELECTOR, data.css_ice)
-    click_button_reservar = (By.CLASS_NAME, data.button_reservar)
-    add_time_sleep = (By.CLASS_NAME, data.time_sleep)
+    tariff_car = UrbanRoutesPage.button_comfort
+    taxi_id_messenger = UrbanRoutesPage.id_messenger_taxi
+    view_label = UrbanRoutesPage.label_view
+    card_name = UrbanRoutesPage.card_name
+    blanket_and_scarves = UrbanRoutesPage.label_blanket_and_scarves
+    blanket_and_scarves_ = UrbanRoutesPage.label_blanket_and_scarves_
+    add_ice = UrbanRoutesPage.css_ice
+    check_css_ice = UrbanRoutesPage.check_css_ice
+    click_button_reserver = UrbanRoutesPage.button_reserver
+    wait_order = UrbanRoutesPage.wait_order
 
     def __init__(self, driver):
         self.driver = driver
@@ -22,63 +22,60 @@ class TariffPickerShown:
 # Seleciona la tarifa Confort
     def select_tariff(self):
         self.driver.find_element(*self.tariff_car).click()
-        time.sleep(1)
 
-# Deslizar hasta la sección del ingreso del numero telefonico, metodo de pago y mensaje al conductor
-    def view_zonal_of_date(self):
+# Verifica que la tarifa seleccionada sea la correcta
+    def check_select_tariff(self):
+        return self.driver.find_element(*self.tariff_car).text
+
+# Espera a que se muestre mensaje en el modal
+    def wait_select_tariff(self):
+        WebDriverWait(self.driver, 2).until(expected_conditions.visibility_of_element_located(self.tariff_car))
+
+    # Deslizar hasta la sección del ingreso del numero telefonico, metodo de pago y mensaje al conductor
+    def slide_view_zonal_of_date(self):
         element = self.driver.find_element(*self.taxi_id_messenger)
         self.driver.execute_script("arguments[0].scrollIntoView();", element)
-        time.sleep(2)
-
-# Realiza llamado del archivo para agregar numero de telefono con su codigo de seguridad
-    def call_file_number_phone_and_code(self):
-        call_file_number_phone = NumberPhoneAndCode(self.driver)
-        call_file_number_phone.add_phone_number()
-
-# Realiza llamado del archivo para agregar nueva tarjeta
-    def call_file_add_new_card(self):
-        call_add_new_card = AddNewCard(self.driver)
-        call_add_new_card.card_generate()
 
 # Ingresar mensaje para el controlador
-    def messenger_controlator(self):
+    def add_messenger_comptroller(self):
         self.driver.find_element(*self.taxi_id_messenger).send_keys(data.message_for_driver)
-        time.sleep(1)
+
+# Verifica el mensaje enviado al contralor
+    def check_messenger_comptroller(self):
+        return self.driver.find_element(*self.taxi_id_messenger).get_property('value')
+
+# Espera a que se muestre mensaje en el contralor
+    def wait_add_messenger_comptroller(self):
+        WebDriverWait(self.driver, 3).until(expected_conditions.visibility_of_element_located(self.taxi_id_messenger))
 
 # Deslizar hasta la sección del Requisitos del pedido
-    def view_zonal_of_date_2(self):
+    def slide_view_zonal_of_date_2(self):
         element = self.driver.find_element(*self.view_label)
         self.driver.execute_script("arguments[0].scrollIntoView();", element)
-        time.sleep(2)
 
 # Genera click para seleccionar la opcion de requisitos y pedidos manta y pañuelos
-    def req_picker_manta(self):
-        self.driver.find_element(*self.manta).click()
+    def trigger_picker_blanket_and_scarves(self):
+        self.driver.find_element(*self.blanket_and_scarves).click()
 
-# Seleccionar la cantidad de helados
+# Verifica que se haya escogido la manta y pañuelo
+    def check_trigger_picker_blanket_and_scarves(self):
+        return self.driver.find_element(*self.blanket_and_scarves_).text
+
+    # Seleccionar la cantidad de helados
     def add_ices_picker(self):
         number_clicks_add = self.driver.find_element(*self.add_ice)
         add_clicks = 2
         for number_clicks in range(add_clicks):
             number_clicks_add.click()
-            time.sleep(1)
+
+# Verifica que se haya escogido la manta y pañuelo
+    def check_add_ices_picker(self):
+        return self.driver.find_element(*self.check_css_ice).text
 
 # Generar click en el boton para reservar un taxi despues de haber ingresado los datos requeridos
-    def click_button_of_reservar(self):
-        self.driver.find_element(*self.click_button_reservar).click()
-        time.sleep(45)
+    def trigger_click_button_of_reserver(self):
+        self.driver.find_element(*self.click_button_reserver).click()
 
-# Agrupa todas las funciones para que sean llamado por el archivo principal main.py
-    def order_completed(self):
-        self.select_tariff()
-        self.view_zonal_of_date()
-        self.call_file_number_phone_and_code()
-        self.call_file_add_new_card()
-        self.messenger_controlator()
-        self.view_zonal_of_date_2()
-        self.req_picker_manta()
-        self.add_ices_picker()
-        self.click_button_of_reservar()
-
-    def wait_for_tariff_pickers_shown(self):
-        WebDriverWait(self.driver, 50).until(expected_conditions.visibility_of_element_located(self.add_time_sleep))
+# Espera a que se muestre mensaje en el modal
+    def wait_messenger_modal(self):
+        WebDriverWait(self.driver, 35).until(expected_conditions.visibility_of_element_located(self.wait_order))
