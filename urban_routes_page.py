@@ -10,7 +10,7 @@ class UrbanRoutesPage:
     # VARIABLES PARA ARCHIVO type_jorney.py
     mode_journey = (By.XPATH, '//div[@class="mode" and text()="Personal"]')
     type_vehicle = (By.CSS_SELECTOR, 'img[src="/static/media/taxi-active.b0be3054.svg"]')
-    button_taxi = (By.XPATH, '//button[@class="button round"]')
+    button_taxi = (By.XPATH, '//button[@class="button round" and text()="Pedir un taxi"]')
 
     # Localizadores del archivo tariff_pickers_shown.py
     button_comfort = (By.XPATH, '//div[@class="tcard"]/div[@class="tcard-title" and text()="Comfort"]')
