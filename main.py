@@ -37,9 +37,9 @@ class TestUrbanRoutes:
         type_journey = TypeJourney(self.driver)
         transport_mode = type_journey.check_trigger_click_personal()
         button_taxi = type_journey.check_trigger_click_button_type_taxi()
-        type_journey.wait_for_load_type_journey()
         type_journey.trigger_click_set_personal()
         type_journey.trigger_click_type_vehicle()
+        type_journey.wait_for_load_type_journey()
         type_journey.trigger_click_button_type_taxi()
         assert transport_mode == 'Personal'
         assert button_taxi == 'Pedir un taxi'
