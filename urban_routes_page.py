@@ -39,7 +39,8 @@ class UrbanRoutesPage:
     card_code = (By.XPATH, '//div[@class="card-code-input"]/input[@name="code"]')
     click_plc = (By.CLASS_NAME, 'plc')
     button_add_card = (By.XPATH, '//button[@class="button full" and text()="Agregar"]')
-    button_closed = (By.XPATH, '//*[@id="root"]/div/div[2]/div[2]/div[1]/button')
+    button_closed = (By.XPATH, '//*[@id="root"]/div/div[@class="payment-picker open"]/div[@class="modal"]/div['
+                               '@class="section active"]/button')
 
     def __init__(self, driver):
         self.driver = driver
