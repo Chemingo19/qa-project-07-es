@@ -20,7 +20,11 @@ class TypeJourney:
     def check_trigger_click_personal(self):
         return self.driver.find_element(*self.mode_personal).text
 
-# Genera Click en el tipo de vehiculo taxi
+# Realiza una espera a que cargue el modo de vehiculo personal
+    def wait_for_load_button_type_taxi(self):
+            WebDriverWait(self.driver, 3).until(expected_conditions.visibility_of_element_located(self.button_type))
+
+    # Genera Click en el tipo de vehiculo taxi
     def trigger_click_type_vehicle(self):
         self.driver.find_element(*self.type_vehicle).click()
 
