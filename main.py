@@ -36,6 +36,7 @@ class TestUrbanRoutes:
     def test_type_journey(self):
         type_journey = TypeJourney(self.driver)
         transport_mode = type_journey.check_trigger_click_personal()
+        type_journey.wait_for_load_button_type_taxi()
         button_taxi = type_journey.check_trigger_click_button_type_taxi()
         type_journey.trigger_click_set_personal()
         type_journey.trigger_click_type_vehicle()
